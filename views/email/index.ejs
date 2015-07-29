@@ -1,0 +1,80 @@
+<div class="col-sm-6 col-lg-4">
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Cargar lista de e-mails
+</button>
+</div>
+
+<div class="col-sm-6 col-lg-7">
+
+<table class="table table-hover" id="table">
+  <thead>
+  	<th>N°</th>
+  	<th>Nombre</th>
+  	<th>Lista</th>
+    <th>Email</th>
+    <th>#</th>
+  </thead>
+  <tbody>
+     <% emails.forEach(function(el,index){ %>
+      <tr>
+        <td><%=: index %></td>
+        <td><%=: el.nombre%></td>
+         <% listas.forEach(function(el1,index){ %>
+          <% if(el1.id == el.idlista) { %>
+            <td><%=: el1.nombreLista %></td>
+          <% } %>
+         <% }) %>
+
+        <td><%=: el.email %></td>
+        <td>
+          <button type="button" class="btn btn-danger">Eliminar</button>
+          <button type="button" class="btn btn-success">Ver</button>
+        </td>
+    </tr>
+
+      <% }) %>
+  	
+  	
+  </tbody>
+</table>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Subir Emails</h4>
+      </div>
+      <div class="modal-body" >
+         <form action="/email/upload" method="POST" name="create" data-form="upload" enctype="multipart/form-data">
+          <div class="alert alert-success" id="mensajePositivo" style="display:none;"></div>
+          <div class="alert alert-danger"  id="mensajeNegativo" style="display:none;"></div>
+        <div class="form-group">
+          <label for="exampleInputFile">Carga de Emails </label>
+          <input type="file" id="exampleInputFile" name="file"> 
+          <p class="help-block">Formato CSV ,separado por ";"</p>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Selecionar lista </label>
+        <select class="form-control" name="idlista">
+          <option value="-1">Seleccionar</option> 
+           <% listas.forEach(function(el,index){ %>
+           <option value="<%=: el.id %>"><%=: el.nombreLista %></option> 
+           <% }); %>
+      </select>
+      </div>     
+        <input type='hidden' name='_csrf' value='<%= _csrf %>'>
+        <!--div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div-->
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>

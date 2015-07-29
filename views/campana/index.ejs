@@ -1,0 +1,96 @@
+<style type="text/css">
+.modal-dialog {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.modal-content {
+  height: 100%;
+  border-radius: 0;
+}
+</style>
+
+
+<div class="col-sm-6 col-lg-4">
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Crear campana
+</button>
+</div>
+<div class="col-sm-6 col-lg-7">
+
+<table class="table table-hover" id="table">
+  <thead>
+  	<th>N°</th>
+  	<th>Nombre</th>
+  	<th>Asunto</th>
+    <th>#</th>
+  </thead>
+  <tbody>
+    <% campana.forEach(function(el,index){ %>
+      <tr id="campana<%=:el.id %>">
+         <td><%=: index %></td>
+         <td><%=: el.campana %></td>
+         <td><%=: el.asunto %></td>
+         <td>
+         <form name="oDestroy" action="/campana/destroy/<%=:el.id %>" method="PUT" onsubmit="return $.fn.eliminar(this,'campana');">
+            <input type='hidden' name='_csrf' value='<%= _csrf %>'/>
+            <input type='hidden' name="id" value='<%=:el.id %>' />
+            <button type="submit" class="btn btn-danger" >Eliminar</button>
+          </form> 
+          <form name="show" action="/campana/find/<%=:el.id %>" method="GET">
+            <input type='hidden' name='_csrf' value='<%= _csrf %>'/>
+            <input type='hidden' name="id" value='<%=:el.id %>' />
+          <button type="submit" class="btn btn-xs btn-success">Ver</button>
+        </form>
+        </td>
+      </tr>
+
+  <%  })%>
+
+  </tbody>
+</table>
+</div>
+<!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Crear Campana</h4>
+      </div>
+      <div class="modal-body" >
+         <form name="create" action="/campana/create" method="POST">
+          <div class="alert alert-success" id="mensajePositivo" style="display:none;"></div>
+          <div class="alert alert-danger"  id="mensajeNegativo" style="display:none;"></div>
+          <div class="form-group">
+            <label for="inputEmail">Nombre de la Campaña</label>
+            <input type="text" class="form-control" id="campana" name="campana" placeholder="nombre de la campana">
+        </div>
+        <div class="form-group">
+            <label for="inputEmail">Asunto</label>
+            <input type="text" class="form-control" id="asunto" name="asunto" placeholder="asunto del mensaje">
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Selecionar lista </label>
+        <!--select class="form-control" name="idlista">
+          <option value="-1">Seleccionar</option> 
+           <% listas.forEach(function(el,index){ %>
+           <option value="<%=: el.id %>"><%=: el.nombreLista %></option> 
+           <% }); %>
+      </select-->
+      </div>
+      <input type='hidden' name='_csrf' value='<%= _csrf %>'>
+        <div class="form-group">
+            <label for="inputPassword">Ingrese HTML</label>
+            <input type="hidden" name="mensaje" value="">
+            <div  id="summernote"></div>
+        </div>        
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <input  type="button" class="btn btn-success col-md-pull-4" id="actualizar" data-id="" data-url="/campana/update/"disabled value="Actualizar"/>
+    </form>
+    </div>
+  </div>
+</div>
+</div>
+<!-- end modal -->

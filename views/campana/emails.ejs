@@ -1,0 +1,37 @@
+<table class="table table-hover" id="table">
+	<thead>
+		<th>#</th>
+		<th>id</th>
+		<th>Campana</th>
+		<th>Email</th>
+		<th>Enviado</th>
+		<th>Visto</th>
+		<th>Salida</th>
+		<th>#</th>
+	</thead>
+	<tbody>
+		<% emails.forEach(function(el,index){ %> 
+		<tr>
+			<td><%=: index +1 %></td>
+			<td><%=: el.id %></td>
+			<td><%=: el.campana %></td>
+			<td><%=: el.email %></td>
+			<td> <% if  (el.enviado == 1 ){ %>
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<% }else{ %>
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				<% } %>
+			</td>
+			<td> <% if  (el.visto == 1 ){ %>
+				<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+				<% }else{ %>
+				<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+				<% } %>
+			</td>
+			<td><%=: el.createdAt | cDate %></td>
+			<td></td>
+		</tr>
+		<% }); %>
+		
+	</tbody>
+</table>
